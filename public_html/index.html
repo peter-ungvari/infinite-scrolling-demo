@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Infinite scrolling demo</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	</head>
+	<body>
+		<div id="content" style="width: 400px; height: 800px; overflow-y: scroll; display: inline-block"></div>
+		<div style="width: 400px; height: 800px; overflow-y: scroll; display: inline-block">
+			<div id="content2"></div>
+			<button onclick="more();">More...</button>
+		</div>
+		<div id="status" style="width: 400px; height: 800px; overflow-y: scroll; display: inline-block"></div>
+		<script type="text/javascript" src="js/libs/jquery-1.9.0/jquery.min.js"></script>
+		<script type="text/javascript">
+			var i = 1;
+			var j = 1;
+			
+			$(function() {
+				var content = $("div#content");
+				i = fill50(content, i);
+				j = fill50($("div#content2"), j);
+				content.scroll(function() {
+					if (content.scrollTop() + content.innerHeight() >= content[0].scrollHeight) {
+						i = fill50(content, i);
+					}
+				});
+			});
+
+			var fill50 = function(parent, start) {
+				$("div#status").append("<div>" + parent.attr("id") + ": Loading 50 item from " + start + " </div>");
+				var end = start + 50;
+				for (var i = start; i < end; ++i) {
+					parent.append("<div>" + i + ". I will not write out things like this again.</div>");
+				}
+				return end;
+			};
+			
+			var more = function() {
+				var content2 = $("div#content2");
+				j = fill50(content2, j);
+			};
+		</script>
+	</body>
+</html>
